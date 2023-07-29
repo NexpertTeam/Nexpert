@@ -1,11 +1,11 @@
 import React from 'react';
+import Tree from 'react-d3-tree';
+import './styles/Graph.css';
 
-function Graph({ color, children }) {
+export default function Graph({ data }) {
   return (
-    <div style={{ backgroundColor: color, flex: 1, padding: '10px' }}>
-      {children}
+    <div className="graph">
+      <Tree data={data} />
     </div>
   );
 }
-
-export default Graph;

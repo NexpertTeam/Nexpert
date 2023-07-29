@@ -1,9 +1,9 @@
 import React from 'react';
 import './styles/History.css';
 
-function History({ color, children }) {
+function History({ children }) {
   return (
-    <div className="main">
+    <div className="history">
       {children}
     </div>
   );

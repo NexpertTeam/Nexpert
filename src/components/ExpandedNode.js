@@ -1,8 +1,10 @@
 import React from 'react';
+import './styles/ExpandedNode.css';
 
-function ExpandedNode({ color, children }) {
+function ExpandedNode({ currentNode, children }) {
   return (
-    <div style={{ backgroundColor: color, flex: 1, padding: '10px' }}>
+    <div className="expandedNode">
+      {currentNode?.data.name}
       {children}
     </div>
   );
