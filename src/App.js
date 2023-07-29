@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import NodeContext from './NodeContext.js';
 import ExpandedNode from './components/ExpandedNode.js';
 import Graph from './components/Graph.js';
 import History from './components/History.js';
+import PromptBar from './components/PromptBar.js';
 
 import './App.css';
 
@@ -39,10 +40,30 @@ const data = {
 
 function App() {
   const [currentNode, setCurrentNode] = useState(null);
+  const [isPromptBarVisible, setPromptBarVisible] = useState(false);
+
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      if (event.metaKey && event.key === 's') {
+        event.preventDefault();
+        setPromptBarVisible(true);
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, []);
+
+  const closeSearchBar = () => {
+    setPromptBarVisible(false);
+  };
 
   return (
     <div className="App">
       <NodeContext.Provider value={{ currentNode, setCurrentNode }}>
+        {isPromptBarVisible && <PromptBar onClose={closeSearchBar} />}
         <History />
         <ExpandedNode currentNode={currentNode} />
         <Graph data={data}/>
