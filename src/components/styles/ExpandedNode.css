@@ -3,3 +3,8 @@
     height: 100vh;
     background: #657cac;
 }
+
+.nodeTag {
+    margin: 1rem;
+    text-align: left;
+}
