@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_URL = 'http://127.0.0.1:8000';
+const BASE_URL = 'http://0.0.0.0:8000';
 
 const exampleExpandedData = {
   "url": "https://arxiv.org/pdf/1810.04805.pdf",
@@ -32,7 +32,7 @@ const exampleLongDescription = {
 };
 
 
-export function generateTwoLayers(searchTerm) {
+export async function generateTwoLayers(searchTerm) {
   return axios.post(`${BASE_URL}/query`, { query: searchTerm })
     .then(response => response.data)
     .catch(error => {

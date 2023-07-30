@@ -1,7 +1,8 @@
-import React from 'react';
+import { React, useState } from 'react';
 import { Modal, TextField } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { generateTwoLayers } from '../api/apiCalls.js';
+import "../App.css"
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -18,20 +19,28 @@ const useStyles = makeStyles(theme => ({
 
 const PromptBar = ({ onClose }) => {
   const classes = useStyles();
-
-  const handleSearch = (event) => {
+  const [loading, setLoading] = useState(false);
+  const handleSearch = async (event) => {
     if (event.key === 'Enter') {
-      generateTwoLayers(event.target.value);
+      setLoading(true);
+      // generateTwoLayers(event.target.value);
+      const temp = await generateTwoLayers(event.target.value);
+      setLoading(false);
+      console.log(temp);
     }
   };
 
 
   return (
-    <Modal open={true} onClose={onClose}>
-      <div className={classes.paper}>
-        <TextField fullWidth placeholder="I want to become an expert in..." autoFocus onKeyDown={handleSearch}/>
-      </div>
-    </Modal>
+    loading ?
+        <div  class="lds-roller background"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+    
+      :
+      <Modal open={true} onClose={onClose}>
+        <div className={classes.paper} style={{ borderRadius: "6px" }}>
+          <TextField fullWidth placeholder="I want to become an expert in..." autoFocus onKeyDown={handleSearch} />
+        </div>
+      </Modal>
   );
 };
 
