@@ -13,7 +13,6 @@ export function NodeProvider({ children }) {
   const handleNodeClick = (nodeData) => {
     setCurrentNode(nodeData);
     setNodeHistory(prev => [...prev, nodeData]);
-    setLoading(true);
   };
 
   const goToNodeInHistory = (nodeData) => {

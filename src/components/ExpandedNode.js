@@ -18,7 +18,7 @@ function ExpandedNode({ children }) {
         </div>
       }   
       {!currentNode && 
-        <div className="nodeTag">Press CMD-S to get started, or select a node on the righthand side.</div>
+        <div className="noNodeTag"><i>Press CMD-S to get started, or select a node on the righthand side.</i></div>
       }
 
       {children}

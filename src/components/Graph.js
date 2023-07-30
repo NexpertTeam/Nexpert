@@ -42,11 +42,18 @@ function updateDescription(node, currentNode, longDescription) {
   return node;
 };
 
-const getLongDesc = async (node, callbackFunc, activeVar) => {
-  const paperInsights = await getLongDescription(node); // Add any necessary arguments
-  // Update node description in treeData
-  const updatedTreeData = updateDescription(activeVar, node.data, paperInsights?.expandedDescription);
-  callbackFunc(updatedTreeData);
+const getLongDesc = (node, callbackFunc, activeVar) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const paperInsights = await getLongDescription(node); // Add any necessary arguments
+      // Update node description in treeData
+      const updatedTreeData = updateDescription(activeVar, node.data, paperInsights?.expandedDescription);
+      callbackFunc(updatedTreeData);
+      resolve();
+    } catch (error) {
+      reject(error);
+    }
+  });
 }
 
 const expandGraph = async (node, callbackFunc, activeVar) => {
@@ -64,9 +71,11 @@ const Graph = ({ data }) => {
     const fetchData = async () => {
       try {
         if (currentNode && currentNode.data) {
-          // getLongDesc(currentNode, setTreeData, treeData);
-          expandGraph(currentNode, setTreeData, treeData);
-
+          setLoading(true);
+          await getLongDesc(currentNode, setTreeData, treeData)
+            .then(() => {
+              expandGraph(currentNode, setTreeData, treeData);
+            });
         }
         setLoading(false);
       } catch (error) {
@@ -76,6 +85,7 @@ const Graph = ({ data }) => {
 
     fetchData();
   }, [currentNode]); 
+ 
 
   const onClick = (nodeData) => {
     handleNodeClick(nodeData);
@@ -88,6 +98,7 @@ const Graph = ({ data }) => {
         translate={translate}
         onNodeClick={onClick} 
         separation={{ siblings: 1, nonSiblings: 1 }}
+        // pathFunc="step"
         rootNodeClassName="node__root"
         branchNodeClassName="node__branch"
         leafNodeClassName="node__leaf"

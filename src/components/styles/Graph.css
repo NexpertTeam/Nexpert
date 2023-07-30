@@ -4,6 +4,12 @@
     width: 57vw;
 }
 
+.rd3t-label__title {
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande',
+    'Lucida Sans', Arial, sans-serif;
+    color: #373737;
+}
+
 .node__root > circle {
   fill: rgb(19, 1, 69);
 }
