@@ -1,15 +1,14 @@
-import React, { useState, useEffect } from 'react';
-import { NodeProvider } from './NodeContext.js';
-import ExpandedNode from './components/ExpandedNode.js';
-import Graph from './components/Graph.js';
-import History from './components/History.js';
-import PromptBar from './components/PromptBar.js';
+import React, { useState, useEffect } from "react";
+import { NodeProvider } from "./NodeContext.js";
+import ExpandedNode from "./components/ExpandedNode.js";
+import Graph from "./components/Graph.js";
+import History from "./components/History.js";
+import PromptBar from "./components/PromptBar.js";
 
-import './App.css';
+import "./App.css";
 
 // This is where the data needs to be passed in...
 // TODO: We need to do an array of papers and map over them to generate individual graphs
-
 
 function App() {
   const [isPromptBarVisible, setPromptBarVisible] = useState(false);
@@ -17,15 +16,19 @@ function App() {
   useEffect(() => {
     // Keep this later
     const handleKeyDown = (event) => {
-      if (event.metaKey && event.key === 's') {
+      if (event.metaKey && event.key === "s") {
+        event.preventDefault();
+        setPromptBarVisible(true);
+      }
+      if (event.ctrlKey && event.key == "q") {
         event.preventDefault();
         setPromptBarVisible(true);
       }
     };
 
-    window.addEventListener('keydown', handleKeyDown);
+    window.addEventListener("keydown", handleKeyDown);
     return () => {
-      window.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener("keydown", handleKeyDown);
     };
   }, []);
 
@@ -34,14 +37,14 @@ function App() {
   };
 
   return (
-      <NodeProvider>
-        <div className="App">
-          {isPromptBarVisible && <PromptBar onClose={closeSearchBar} />}
-          <History />
-          <ExpandedNode />
-          <Graph/>
-        </div>
-      </NodeProvider>
+    <NodeProvider>
+      <div className="App">
+        {isPromptBarVisible && <PromptBar onClose={closeSearchBar} />}
+        <History />
+        <ExpandedNode />
+        <Graph />
+      </div>
+    </NodeProvider>
   );
 }
 
