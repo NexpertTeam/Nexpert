@@ -1,4 +1,5 @@
 import { createContext, useState } from 'react';
+import '../src/App.css'
 
 export const NodeContext = createContext();
 
