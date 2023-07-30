@@ -50,7 +50,7 @@ const PromptBar = ({ onClose }) => {
 
   return (
     loading ?
-        <Modal open={true} onClose={onClose} style={{ display: "flex", justifyContent: 'center', alignItems: "center", height: "100%", width: "100%"}}>
+        <Modal open={true} onClose={onClose} style={{ display: "flex", justifyContent: 'center', alignItems: "center", height: "100%", width: "100%", border: "none"}}>
           <div className='spinner'>
             <div className="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
           </div>
