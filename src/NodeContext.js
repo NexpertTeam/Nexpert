@@ -1,5 +1,5 @@
 import { createContext, useState } from 'react';
-import { getLongDescription, getPaperInsights } from './api/apiCalls.js';
+import { getLongDescription } from './api/apiCalls.js';
 
 export const NodeContext = createContext();
 
@@ -13,8 +13,6 @@ export function NodeProvider({ children }) {
     setCurrentNode(nodeData);
     setNodeHistory(prev => [...prev, nodeData]);
     // TODO: fetch long description and children IDs
-    getLongDescription(nodeData.data.id);
-    getPaperInsights(nodeData.data.id); //use this to render further nodes;
   };
 
   const goToNodeInHistory = (nodeData) => {
@@ -31,7 +29,7 @@ export function NodeProvider({ children }) {
       y: svgHeight / 2 - scale * y
     });
 
-    setScale(2); // Or any desired scale factor
+    // setScale(2); // Or any desired scale factor
   }
 
   return (

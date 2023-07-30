@@ -1,7 +1,7 @@
 import React from 'react';
 import { Modal, TextField } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { getTopPaper } from '../api/apiCalls.js';
+import { generateTwoLayers } from '../api/apiCalls.js';
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -21,7 +21,7 @@ const PromptBar = ({ onClose }) => {
 
   const handleSearch = (event) => {
     if (event.key === 'Enter') {
-      getTopPaper(event.target.value);
+      generateTwoLayers(event.target.value);
     }
   };
 

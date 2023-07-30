@@ -1,25 +1,44 @@
 import React, { useContext, useEffect, useState } from 'react';
 import Tree from 'react-d3-tree';
 import { NodeContext } from '../NodeContext.js';
-import { getPaperInsights, expandGraphWithNewNodes } from '../api/apiCalls.js'; // or wherever your API functions are stored
+import { getLongDescription, expandGraphWithNewNodes } from '../api/apiCalls.js'; // or wherever your API functions are stored
 import './styles/Graph.css';
 
+function mergeData(nodeId, treeData, expandedData) {
+  // Function to recursively search for a node
+  function findNode(node) {
+    if (node.id === nodeId) {
+      // Node found, append children
+      node.children = node.children.concat(expandedData);
+    } else if (node.children) {
+      // Node not found, search children
+      node.children.forEach(findNode);
+    }
+  }
+
+  // Make a deep copy of the tree data and search it
+  const newTreeData = JSON.parse(JSON.stringify(treeData));
+  findNode(newTreeData);
+
+  return newTreeData;
+}
+
 const Graph = ({ data }) => {
-  const { handleNodeClick, translate, scale, nodeIdToExpand } = useContext(NodeContext);
+  const { scale, translate, handleNodeClick, currentNode } = useContext(NodeContext);
   const [treeData, setTreeData] = useState(data); // Initially, treeData is what you pass in as a prop
 
   useEffect(() => {
-    // This function fetches data from your endpoints
     const fetchData = async () => {
       try {
         // Fetch paper insights and set them in the state
-        const paperInsights = await getPaperInsights(); // Add any necessary arguments
+        const paperInsights = await getLongDescription(currentNode.data.id); // Add any necessary arguments
         setTreeData(paperInsights);
 
         // If there's a node to expand, fetch new nodes and add them to the tree data
-        if (nodeIdToExpand) {
-          const expandedGraphData = await expandGraphWithNewNodes(nodeIdToExpand); // Add any necessary arguments
-          // Now merge expandedGraphData with treeData, you may need to find the node with nodeIdToExpand and add expandedGraphData as its children. This depends on your data structure
+        if (currentNode) {
+          const expandedGraphData = await expandGraphWithNewNodes(currentNode.data.id);
+          const newTreeData = mergeData(currentNode.data.id, treeData, expandedGraphData.concepts);
+          setTreeData(newTreeData);
         }
       } catch (error) {
         console.error('An error occurred while fetching data:', error);
@@ -28,10 +47,9 @@ const Graph = ({ data }) => {
     };
 
     fetchData();
-  }, [nodeIdToExpand]); // Fetch data when the component mounts, and refetch whenever nodeIdToExpand changes
+  }, [currentNode]); // Fetch data when the component mounts, and refetch whenever nodeIdToExpand changes
 
   const onClick = (nodeData) => {
-    console.log(nodeData);
     handleNodeClick(nodeData);
   };
 
