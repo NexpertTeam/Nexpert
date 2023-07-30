@@ -93,6 +93,7 @@ const Graph = () => {
 
   return (
     <div className="graph" style={{ transform: `scale(${scale})` }}>
+      <div className="helperText"><i>Use cmd-s (in mac) or ctrl-q (in windows) to open the prompt editor.</i></div>
       {treeData && (
         <Tree 
           data={treeData} 

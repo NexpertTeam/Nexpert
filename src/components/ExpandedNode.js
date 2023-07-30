@@ -43,7 +43,7 @@ function ExpandedNode({ children }) {
           </div>
         }   
         {!foundNode && 
-          <div className="noNodeTag"><i>Press CMD-S to get started, or select a node on the righthand side.</i></div>
+          <div className="noNodeTag">No rabbithole selected (yet)...</div>
         }
 
         {children}

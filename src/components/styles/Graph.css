@@ -37,3 +37,10 @@
 .node__leaf > circle:hover {
   transform: scale(1.5);
 }
+
+.helperText {
+    margin: 2rem;
+    padding: 1rem;
+    font-size: 0.8rem;
+    text-align: center;
+}
