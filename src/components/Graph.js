@@ -63,19 +63,20 @@ const expandGraph = async (node, callbackFunc, activeVar) => {
 }
 
 // Main component
-const Graph = ({ data }) => {
-  const { scale, translate, handleNodeClick, currentNode, setLoading } = useContext(NodeContext);
-  const [treeData, setTreeData] = useState(data); 
+const Graph = () => {
+  const { scale, translate, handleNodeClick, currentNode, setLoading, treeData, setTreeData } = useContext(NodeContext);
 
   useEffect(() => {
+    if (!currentNode) return;
+    
     const fetchData = async () => {
       try {
         if (currentNode && currentNode.data) {
           setLoading(true);
           const updatedTreeData = await getLongDesc(currentNode, setTreeData, treeData);
-          expandGraph(currentNode, setTreeData, updatedTreeData);
+          await expandGraph(currentNode, setTreeData, updatedTreeData);
+          setLoading(false);
         }
-        setLoading(false);
       } catch (error) {
         console.error('An error occurred while fetching data:', error);
       }
@@ -84,22 +85,25 @@ const Graph = ({ data }) => {
     fetchData();
   }, [currentNode]); 
 
+
   const onClick = (nodeData) => {
     handleNodeClick(nodeData);
   };
 
   return (
     <div className="graph" style={{ transform: `scale(${scale})` }}>
-      <Tree 
-        data={treeData} 
-        translate={translate}
-        onNodeClick={onClick} 
-        separation={{ siblings: 1, nonSiblings: 1 }}
-        // pathFunc="step"
-        rootNodeClassName="node__root"
-        branchNodeClassName="node__branch"
-        leafNodeClassName="node__leaf"
-      />
+      {treeData && (
+        <Tree 
+          data={treeData} 
+          translate={translate}
+          onNodeClick={onClick} 
+          separation={{ siblings: 1, nonSiblings: 1 }}
+          // pathFunc="step"
+          rootNodeClassName="node__root"
+          branchNodeClassName="node__branch"
+          leafNodeClassName="node__leaf"
+        />
+      )}
     </div>
   );
 };

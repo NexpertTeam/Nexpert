@@ -1,28 +1,55 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { NodeContext } from '../NodeContext.js';
 import './styles/ExpandedNode.css';
 
 function ExpandedNode({ children }) {
-   const { currentNode, loading } = useContext(NodeContext);
+  const { currentNode, loading, treeData } = useContext(NodeContext);
+  const [foundNode, setFoundNode] = useState(null);
+
+  const findNode = (node, id) => {
+    if (node.id === id) {
+      return node;
+    }
+
+    if (node.children) {
+      for (let child of node.children) {
+        const result = findNode(child, id);
+        if (result) {
+          return result;
+        }
+      }
+    }
+
+    return null;
+  };
+
+  useEffect(() => {
+    if (currentNode && treeData) {
+      setFoundNode(findNode(treeData, currentNode.data.id));
+    }
+  }, [currentNode, treeData]);
 
   return (
-    <div className="expandedNode">
-      <h3 className='title'>Read More</h3>
-      {loading && <div>Loading...</div>}
-      {console.log(currentNode)}
-      {!loading && currentNode &&
-        <div>
-            <div className="nodeTag"><b>Name:</b> {currentNode?.data.name}</div>
-            <div className="nodeTag"><b>Description:</b> {currentNode?.data.description}</div>
-            <div className="nodeTag"><b>Reference URL:</b> <u>{currentNode?.data?.referenceUrl}</u></div>
-        </div>
-      }   
-      {!currentNode && 
-        <div className="noNodeTag"><i>Press CMD-S to get started, or select a node on the righthand side.</i></div>
-      }
+    treeData &&
+    (
+      <div className="expandedNode">
+        {console.log(treeData)}
+        <h3 className='title'>Read More</h3>
+        {loading && <div>Loading...</div>}
+        {!loading && foundNode &&
+          <div>
+            <div className="nodeTag"><b>Name:</b> {foundNode.name}</div>
+            <div className="nodeTag"><b>Description:</b> {foundNode.description}</div>
+            <div className="nodeTag"><b>Reference URL:</b> <u>{foundNode?.referenceUrl}</u></div>
+          </div>
+        }   
+        {!foundNode && 
+          <div className="noNodeTag"><i>Press CMD-S to get started, or select a node on the righthand side.</i></div>
+        }
 
-      {children}
-    </div>
+        {children}
+      </div>
+    )
   );
 }
 
