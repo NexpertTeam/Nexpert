@@ -1,7 +1,14 @@
+.title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin: 1rem;
+}
+
 .expandedNode {
-    flex: 1;
     height: 100vh;
+    width: 40vw;
     background: #657cac;
+    padding: 1.5rem;
 }
 
 .nodeTag {

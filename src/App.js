@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import NodeContext from './NodeContext.js';
+import React, { useState, useEffect, useContext } from 'react';
+import { NodeContext, NodeProvider } from './NodeContext.js';
 import ExpandedNode from './components/ExpandedNode.js';
 import Graph from './components/Graph.js';
 import History from './components/History.js';
@@ -8,8 +8,10 @@ import PromptBar from './components/PromptBar.js';
 import './App.css';
 
 // This is where the data needs to be passed in...
-// We need to do an array of papers and map over them to generate individual graphs
-//
+// TODO: We need to do an array of papers and map over them to generate individual graphs
+
+
+// TODO: Need to make a mapping function
 
 const data = {
   name: "Superconducting Quantum Wells (SQWs)",
@@ -39,36 +41,38 @@ const data = {
 
 
 function App() {
-  const [currentNode, setCurrentNode] = useState(null);
   const [isPromptBarVisible, setPromptBarVisible] = useState(false);
 
-  useEffect(() => {
-    const handleKeyDown = (event) => {
-      if (event.metaKey && event.key === 's') {
-        event.preventDefault();
-        setPromptBarVisible(true);
-      }
-    };
+  //Need a useEffect here to listen for updated graph data -- might re-render?
 
-    window.addEventListener('keydown', handleKeyDown);
-    return () => {
-      window.removeEventListener('keydown', handleKeyDown);
-    };
-  }, []);
+
+  // useEffect(() => {
+  //   const handleKeyDown = (event) => {
+  //     if (event.metaKey && event.key === 's') {
+  //       event.preventDefault();
+  //       setPromptBarVisible(true);
+  //     }
+  //   };
+
+  //   window.addEventListener('keydown', handleKeyDown);
+  //   return () => {
+  //     window.removeEventListener('keydown', handleKeyDown);
+  //   };
+  // }, []);
 
   const closeSearchBar = () => {
     setPromptBarVisible(false);
   };
 
   return (
-    <div className="App">
-      <NodeContext.Provider value={{ currentNode, setCurrentNode }}>
-        {isPromptBarVisible && <PromptBar onClose={closeSearchBar} />}
-        <History />
-        <ExpandedNode currentNode={currentNode} />
-        <Graph data={data}/>
-      </NodeContext.Provider>
-    </div>
+      <NodeProvider>
+        <div className="App">
+          {isPromptBarVisible && <PromptBar onClose={closeSearchBar} />}
+          <History />
+          <ExpandedNode />
+          <Graph data={data}/>
+        </div>
+      </NodeProvider>
   );
 }
 

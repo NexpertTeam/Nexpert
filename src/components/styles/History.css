@@ -1,6 +1,30 @@
 .history {
     height: 100vh;
-    width: 10vw;
-    border-right: 1px solid black;
     background: #282c34;
+    color: white;
+    padding: 1rem;
+}
+
+.history.collapsed {
+  width: 3vw; 
+  overflow: hidden;
+}
+
+.history.expanded {
+    width: 15vw; 
+    overflow: auto;
+}
+
+.clock-icon {
+    text-align: center;
+    margin-top: 1.5rem;
+}
+
+.nodeInHistory {
+    cursor: pointer;
+}
+
+.arrow {
+    margin: 2rem;
+    text-align: center;
 }

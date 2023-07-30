@@ -1,9 +1,13 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { NodeContext } from '../NodeContext.js';
 import './styles/ExpandedNode.css';
 
-function ExpandedNode({ currentNode, children }) {
+function ExpandedNode({ children }) {
+   const { currentNode } = useContext(NodeContext);
+
   return (
     <div className="expandedNode">
+      <h3 className='title'>Description</h3>
       {currentNode &&
         <div>
             <div className="nodeTag"><b>Name:</b> {currentNode?.data.name}</div>
@@ -13,7 +17,7 @@ function ExpandedNode({ currentNode, children }) {
         </div>
       }   
       {!currentNode && 
-        <div>No insight expanded.</div>
+        <div className="nodeTag">No insight expanded.</div>
       }
 
       {children}
