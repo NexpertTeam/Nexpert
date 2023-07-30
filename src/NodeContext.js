@@ -5,7 +5,7 @@ export const NodeContext = createContext();
 const exampleTreeDataToRemove = {
   name: "Layer 1",
   id: "layer1",
-  // parentNode: null,
+  // parent: null,
   description: "This is a random sentence for layer 1.",
   referenceUrl: [],
   children: [

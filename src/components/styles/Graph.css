@@ -22,7 +22,7 @@
 }
 
 .node__branch > circle {
-  fill: rgb(46, 0, 174);
+  fill: #758dbe;
 }
 
 .node__branch > circle:hover {

@@ -30,32 +30,11 @@ const PromptBar = ({ onClose }) => {
 
       generateTwoLayers(event.target.value)
         .then(response => {
-          console.log(response.data);          
+          console.log(response);  
+          setTreeData(response); 
           if (response.error) {
             console.log(response.error);
           }
-          // Construct a map of nodes from the response
-          // const nodesMap = {};
-          // for (let key in response.data) {
-          //   let node = response.data[key];
-          //   nodesMap[node.id] = {...node, children: []};
-          // }
-          // // Build the tree hierarchy
-          // let root;
-          // for (let key in nodesMap) {
-          //   let node = nodesMap[key];
-          //   if (node.parent === "-1") {
-          //     root = node; // This is the root node
-          //   } else {
-          //     // Append this node to its parent's children array
-          //     nodesMap[node.parent].children.push(node);
-          //   }
-          // }
-          // // Now `root` is your tree in the correct format for react-d3-tree
-          // console.log(root);  
-          // setTreeData(root);
-      // generateTwoLayers(event.target.value);
-
 
           setLoading(false);
           onClose();
@@ -72,7 +51,7 @@ const PromptBar = ({ onClose }) => {
     loading ?
         <Modal open={true} onClose={onClose}>
           <div className='spinner'>
-            <div  class="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+            <div className="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
           </div>
         </Modal>
       :
