@@ -39,7 +39,7 @@ function ExpandedNode({ children }) {
           <div>
             <div className="nodeTag"><b>Name:</b> {foundNode.name}</div>
             <div className="nodeTag"><b>Description:</b> {foundNode.description}</div>
-            <div className="nodeTag"><b>Reference URL:</b> <u>{foundNode?.referenceUrl}</u></div>
+            <div className="nodeTag"><b>Reference URL:</b> <a href={foundNode?.referenceUrl} target='_blank'>{foundNode?.referenceUrl}</a></div>
           </div>
         }   
         {!foundNode && 

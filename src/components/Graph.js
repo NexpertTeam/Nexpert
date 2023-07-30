@@ -46,6 +46,7 @@ const getLongDesc = (node, callbackFunc, activeVar) => {
   return new Promise(async (resolve, reject) => {
     try {
       const paperInsights = await getLongDescription(node); // Add any necessary arguments
+      console.log('hi')
       // Update node description in treeData
       const updatedTreeData = updateDescription(activeVar, node.data, paperInsights?.expandedDescription);
       callbackFunc(updatedTreeData);
