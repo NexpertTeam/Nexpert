@@ -49,7 +49,7 @@ const getLongDesc = (node, callbackFunc, activeVar) => {
       // Update node description in treeData
       const updatedTreeData = updateDescription(activeVar, node.data, paperInsights?.expandedDescription);
       callbackFunc(updatedTreeData);
-      resolve();
+      resolve(updatedTreeData); // Return the updated data
     } catch (error) {
       reject(error);
     }
@@ -72,10 +72,8 @@ const Graph = ({ data }) => {
       try {
         if (currentNode && currentNode.data) {
           setLoading(true);
-          await getLongDesc(currentNode, setTreeData, treeData)
-            .then(() => {
-              expandGraph(currentNode, setTreeData, treeData);
-            });
+          const updatedTreeData = await getLongDesc(currentNode, setTreeData, treeData);
+          expandGraph(currentNode, setTreeData, updatedTreeData);
         }
         setLoading(false);
       } catch (error) {
@@ -85,7 +83,6 @@ const Graph = ({ data }) => {
 
     fetchData();
   }, [currentNode]); 
- 
 
   const onClick = (nodeData) => {
     handleNodeClick(nodeData);
