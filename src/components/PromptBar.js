@@ -29,7 +29,7 @@ const PromptBar = ({ onClose }) => {
   return (
     <Modal open={true} onClose={onClose}>
       <div className={classes.paper}>
-        <TextField fullWidth placeholder="Search..." autoFocus onKeyDown={handleSearch}/>
+        <TextField fullWidth placeholder="I want to be an expert in..." autoFocus onKeyDown={handleSearch}/>
       </div>
     </Modal>
   );

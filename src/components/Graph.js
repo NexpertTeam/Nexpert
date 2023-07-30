@@ -5,13 +5,13 @@ import { NodeContext } from '../NodeContext.js';
 import { getLongDescription, expandGraphWithNewNodes } from '../api/apiCalls.js'; // or wherever your API functions are stored
 import './styles/Graph.css';
 
-
+// Helper functions
 function mergeData(nodeId, treeData, expandedData) {
   // Function to recursively search for a node
   function findNode(node) {
     if (node.id === nodeId) {
       // Node found, append children
-      node.children = node.children.concat(expandedData);
+      node.children = node.children?.concat(expandedData);
     } else if (node.children) {
       // Node not found, search children
       node.children.forEach(findNode);
@@ -42,26 +42,40 @@ function updateDescription(node, currentNode, longDescription) {
   return node;
 };
 
+const getLongDesc = async (node, callbackFunc, activeVar) => {
+  const paperInsights = await getLongDescription(node); // Add any necessary arguments
+  // Update node description in treeData
+  const updatedTreeData = updateDescription(activeVar, node.data, paperInsights?.expandedDescription);
+  callbackFunc(updatedTreeData);
+}
+
+const expandGraph = async (node, callbackFunc, activeVar) => {
+  const expandedGraphData = await expandGraphWithNewNodes(node.data.id);
+  const newTreeData = mergeData(node.data.id, activeVar, expandedGraphData);
+  callbackFunc(newTreeData)
+}
+
+// Main component
 const Graph = ({ data }) => {
-  const { scale, translate, handleNodeClick, currentNode } = useContext(NodeContext);
-  const [treeData, setTreeData] = useState(data); // Initially, treeData is what you pass in as a prop
+  const { scale, translate, handleNodeClick, currentNode, setLoading } = useContext(NodeContext);
+  const [treeData, setTreeData] = useState(data); 
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Fetch paper insights and set them in the state
-        const paperInsights = await getLongDescription(currentNode); // Add any necessary arguments
-        // Update node description in treeData
-        const updatedTreeData = updateDescription(treeData, currentNode.data, paperInsights?.expandedDescription);
-        setTreeData(updatedTreeData);
+        if (currentNode && currentNode.data) {
+          // getLongDesc(currentNode, setTreeData, treeData);
+          expandGraph(currentNode, setTreeData, treeData);
+
+        }
+        setLoading(false);
       } catch (error) {
         console.error('An error occurred while fetching data:', error);
-        // You might want to handle this error - show it to the user or something
       }
     };
 
     fetchData();
-  }, [currentNode]); // Fetch data when the component mounts, and refetch whenever currentNode changes
+  }, [currentNode]); 
 
   const onClick = (nodeData) => {
     handleNodeClick(nodeData);
@@ -74,6 +88,9 @@ const Graph = ({ data }) => {
         translate={translate}
         onNodeClick={onClick} 
         separation={{ siblings: 1, nonSiblings: 1 }}
+        rootNodeClassName="node__root"
+        branchNodeClassName="node__branch"
+        leafNodeClassName="node__leaf"
       />
     </div>
   );

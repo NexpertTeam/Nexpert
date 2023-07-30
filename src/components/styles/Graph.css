@@ -3,3 +3,16 @@
     background: #FAF9FA;
     width: 57vw;
 }
+
+.node__root > circle {
+  fill: rgb(19, 1, 69);
+}
+
+.node__branch > circle {
+  fill: rgb(46, 0, 174);
+}
+
+.node__leaf > circle {
+  fill: rgb(175, 181, 192);
+  /* Let's also make the radius of leaf nodes larger */
+}
