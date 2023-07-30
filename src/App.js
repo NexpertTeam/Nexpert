@@ -46,19 +46,19 @@ function App() {
   //Need a useEffect here to listen for updated graph data -- might re-render?
 
 
-  // useEffect(() => {
-  //   const handleKeyDown = (event) => {
-  //     if (event.metaKey && event.key === 's') {
-  //       event.preventDefault();
-  //       setPromptBarVisible(true);
-  //     }
-  //   };
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      if (event.metaKey && event.key === 's') {
+        event.preventDefault();
+        setPromptBarVisible(true);
+      }
+    };
 
-  //   window.addEventListener('keydown', handleKeyDown);
-  //   return () => {
-  //     window.removeEventListener('keydown', handleKeyDown);
-  //   };
-  // }, []);
+    window.addEventListener('keydown', handleKeyDown);
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, []);
 
   const closeSearchBar = () => {
     setPromptBarVisible(false);

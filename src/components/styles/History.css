@@ -3,6 +3,7 @@
     background: #282c34;
     color: white;
     padding: 1rem;
+    box-shadow: 5px 5px 5px rgb(190, 190, 190);
 }
 
 .history.collapsed {

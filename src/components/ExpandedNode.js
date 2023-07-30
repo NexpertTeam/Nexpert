@@ -13,7 +13,9 @@ function ExpandedNode({ children }) {
             <div className="nodeTag"><b>Name:</b> {currentNode?.data.name}</div>
             <div className="nodeTag"><b>Depth:</b> {currentNode?.depth}</div>
             <div className="nodeTag"><b>Content:</b> {currentNode?.data.content}</div>
-            <div className="nodeTag"><b>References:</b> {currentNode?.data.references}</div>
+            <div className="nodeTag"><b>References:</b> {currentNode?.data?.references?.map((reference, index) => (
+              <div key={index}><u>{reference}</u></div>
+            ))}</div>
         </div>
       }   
       {!currentNode && 
