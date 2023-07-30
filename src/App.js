@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { NodeProvider } from "./NodeContext.js";
+import React, { useState, useEffect, useContext } from "react";
+import { NodeProvider, NodeContext } from "./NodeContext.js";
 import ExpandedNode from "./components/ExpandedNode.js";
 import Graph from "./components/Graph.js";
 import History from "./components/History.js";
@@ -11,7 +11,7 @@ import "./App.css";
 // TODO: We need to do an array of papers and map over them to generate individual graphs
 
 function App() {
-  const [isPromptBarVisible, setPromptBarVisible] = useState(false);
+  const [isPromptBarVisible, setPromptBarVisible] = useState(true);
 
   useEffect(() => {
     // Keep this later

@@ -27,6 +27,7 @@ function mergeData(nodeId, treeData, expandedData) {
 
 // Function to recursively update node description
 function updateDescription(node, currentNode, longDescription) {
+  console.log(currentNode);
   if (node.id === currentNode.id) {
     // Return a new object for the node
     return { ...node, description: longDescription };
@@ -42,13 +43,13 @@ function updateDescription(node, currentNode, longDescription) {
   return node;
 };
 
-const getLongDesc = (node, callbackFunc, activeVar) => {
+const getLongDesc = async(node, callbackFunc, currentTreeData) => {
   return new Promise(async (resolve, reject) => {
     try {
-      const paperInsights = await getLongDescription(node); // Add any necessary arguments
-      console.log('hi')
+      console.log(currentTreeData.name)
+      const paperInsights = await getLongDescription(node, currentTreeData.name, node.data.name === "Residual calcium effects" ); // Add any necessary arguments
       // Update node description in treeData
-      const updatedTreeData = updateDescription(activeVar, node.data, paperInsights?.expandedDescription);
+      const updatedTreeData = updateDescription(currentTreeData, node.data, paperInsights);
       callbackFunc(updatedTreeData);
       resolve(updatedTreeData); // Return the updated data
     } catch (error) {
@@ -57,9 +58,9 @@ const getLongDesc = (node, callbackFunc, activeVar) => {
   });
 }
 
-const expandGraph = async (node, callbackFunc, activeVar) => {
-  const expandedGraphData = await expandGraphWithNewNodes(node.data.id);
-  const newTreeData = mergeData(node.data.id, activeVar, expandedGraphData);
+const expandGraph = async (node, callbackFunc, currentTreeData) => {
+  const expandedGraphData = await expandGraphWithNewNodes(node.data.id, currentTreeData.name, node.data, );
+  const newTreeData = mergeData(node.data.id, currentTreeData, expandedGraphData);
   callbackFunc(newTreeData)
 }
 
@@ -75,6 +76,7 @@ const Graph = () => {
         if (currentNode && currentNode.data) {
           setLoading(true);
           const updatedTreeData = await getLongDesc(currentNode, setTreeData, treeData);
+          // console.log(updatedTreeData);
           await expandGraph(currentNode, setTreeData, updatedTreeData);
           setLoading(false);
         }
