@@ -3,6 +3,12 @@
   flex-direction: row;
 }
 
+.App h3 {
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande',
+    'Lucida Sans', Arial, sans-serif;
+  margin-bottom: 3rem;
+}
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;

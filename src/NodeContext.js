@@ -1,5 +1,5 @@
 import { createContext, useState } from 'react';
-import { getLongDescription, getChildrenIDs } from './api/apiCalls.js';
+import { getLongDescription, getPaperInsights } from './api/apiCalls.js';
 
 export const NodeContext = createContext();
 
@@ -14,7 +14,7 @@ export function NodeProvider({ children }) {
     setNodeHistory(prev => [...prev, nodeData]);
     // TODO: fetch long description and children IDs
     getLongDescription(nodeData.data.id);
-    getChildrenIDs(nodeData.data.id); //use this to render further nodes;
+    getPaperInsights(nodeData.data.id); //use this to render further nodes;
   };
 
   const goToNodeInHistory = (nodeData) => {

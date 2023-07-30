@@ -14,37 +14,128 @@ import './App.css';
 // TODO: Need to make a mapping function
 
 const data = {
-  name: "Superconducting Quantum Wells (SQWs)",
+  name: "Layer 1",
+  id: "layer1",
+  parentNode: null,
+  description: "This is a random sentence for layer 1.",
+  referenceUrl: [],
   children: [
-    { 
-      name: "Insight #1",
+    {
+      name: "Layer 2A",
+      id: "layer2A",
+      parentNode: "layer1",
+      description: "This is a random sentence for layer 2A.",
+      referenceUrl: 'google.com',
       children: [
         {
-          name: "Interface regions between lead ions and oxygen atoms that exhibit superconducting properties.",
-          content: "The substitution of smaller Cu2+ ions for Pb2+ ions in the insulating phosphate network causes a volume reduction and stress on the lead ions in the cylindrical columns. This stress distorts the positions of the lead ions and creates superconducting quantum wells at the interfaces between the lead ions and oxygen atoms in the phosphate network. The SQWs are detected through electron paramagnetic resonance signals and are critical for explaining the high temperature superconductivity in LK-99.",
-          references: [
-            " Yoshida, K., Nakamura, M., Higashi, N., & Shimizu, H. (2002). EPR in the 21st Century Basics and Applications to Material, Life and Earth Science. Elsevier B.V. ,"
-          ] 
+          name: "Layer 3A",
+          id: "layer3A",
+          parentNode: "layer2A",
+          description: "This is a random sentence for layer 3A.",
+          referenceUrl: 'google.com',
+          children: [
+            {
+              name: "Layer 4A",
+              id: "layer4A",
+              parentNode: "layer3A",
+              description: "This is a random sentence for layer 4A.",
+              referenceUrl: 'google.com',
+              children: [
+                {
+                  name: "Layer 5A",
+                  id: "layer5A",
+                  parentNode: "layer4A",
+                  description: "This is a random sentence for layer 5A.",
+                  referenceUrl: 'google.com',
+                },
+                {
+                  name: "Layer 5B",
+                  id: "layer5B",
+                  parentNode: "layer4A",
+                  description: "This is a random sentence for layer 5B.",
+                  referenceUrl: 'google.com',
+                },
+              ],
+            },
+            {
+              name: "Layer 4B",
+              id: "layer4B",
+              parentNode: "layer3A",
+              description: "This is a random sentence for layer 4B.",
+              referenceUrl: 'google.com',
+            },
+          ],
         },
-        { name: "grandchild #2", content: "", references: [] },
-      ]
+        {
+          name: "Layer 3B",
+          id: "layer3B",
+          parentNode: "layer2A",
+          description: "This is a random sentence for layer 3B.",
+          referenceUrl: 'google.com',
+        },
+      ],
     },
-    { 
-      name: "Insight #2",
+    {
+      name: "Layer 2B",
+      id: "layer2B",
+      parentNode: "layer1",
+      description: "This is a random sentence for layer 2B.",
+      referenceUrl: 'google.com',
       children: [
-        { name: "grandchild #3", content: "", references: [] },
-        { name: "grandchild #4", content: "", references: [] },  
-      ]
+        {
+          name: "Layer 3C",
+          id: "layer3C",
+          parentNode: "layer2B",
+          description: "This is a random sentence for layer 3C.",
+          referenceUrl: 'google.com',
+          children: [
+            {
+              name: "Layer 4C",
+              id: "layer4C",
+              parentNode: "layer3C",
+              description: "This is a random sentence for layer 4C.",
+              referenceUrl: 'google.com',
+              children: [
+                {
+                  name: "Layer 5C",
+                  id: "layer5C",
+                  parentNode: "layer4C",
+                  description: "This is a random sentence for layer 5C.",
+                  referenceUrl: 'google.com',
+                },
+                {
+                  name: "Layer 5D",
+                  id: "layer5D",
+                  parentNode: "layer4C",
+                  description: "This is a random sentence for layer 5D.",
+                  referenceUrl: 'google.com',
+                },
+              ],
+            },
+            {
+              name: "Layer 4D",
+              id: "layer4D",
+              parentNode: "layer3C",
+              description: "This is a random sentence for layer 4D.",
+              referenceUrl: 'google.com',
+            },
+          ],
+        },
+        {
+          name: "Layer 3D",
+          id: "layer3D",
+          parentNode: "layer2B",
+          description: "This is a random sentence for layer 3D.",
+          referenceUrl: 'google.com',
+        },
+      ],
     },
-  ]
+  ],
 };
 
 
 function App() {
   const [isPromptBarVisible, setPromptBarVisible] = useState(false);
-
-  //Need a useEffect here to listen for updated graph data -- might re-render?
-
 
   useEffect(() => {
     const handleKeyDown = (event) => {
