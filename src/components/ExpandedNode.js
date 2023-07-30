@@ -33,9 +33,8 @@ function ExpandedNode({ children }) {
     treeData &&
     (
       <div className="expandedNode">
-        {console.log(treeData)}
         <h3 className='title'>Read More</h3>
-        {loading && <div>Loading...</div>}
+        {loading && <div className='noNodeTag'>Loading...</div>}
         {!loading && foundNode &&
           <div>
             <div className="nodeTag"><b>Name:</b> {foundNode.name}</div>
