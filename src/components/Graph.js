@@ -47,7 +47,7 @@ const getLongDesc = async(node, callbackFunc, currentTreeData) => {
   return new Promise(async (resolve, reject) => {
     try {
       console.log(currentTreeData.name)
-      const paperInsights = await getLongDescription(node, currentTreeData.name, node.data.name === "Residual calcium effects" ); // Add any necessary arguments
+      const paperInsights = await getLongDescription(node, node.data.name === "Residual calcium effects" ); // Add any necessary arguments
       // Update node description in treeData
       const updatedTreeData = updateDescription(currentTreeData, node.data, paperInsights);
       callbackFunc(updatedTreeData);
@@ -77,7 +77,7 @@ const Graph = () => {
           setLoading(true);
           const updatedTreeData = await getLongDesc(currentNode, setTreeData, treeData);
           // console.log(updatedTreeData);
-          await expandGraph(currentNode, setTreeData, updatedTreeData);
+          // await expandGraph(currentNode, setTreeData, updatedTreeData);
           setLoading(false);
         }
       } catch (error) {

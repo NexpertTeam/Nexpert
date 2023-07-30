@@ -40,17 +40,21 @@ export async function generateTwoLayers(searchTerm) {
     });
 }
 
-export async function getLongDescription(node, query, state) {
+      // const paperInsights = await getLongDescription(node, node.data.name === "Residual calcium effects" ); // Add any necessary arguments
+
+
+export async function getLongDescription(node, state) {
   delete node.data.__rd3t;
   delete node.data.depth;
   delete node.data.height;
   delete node.data.x;
   delete node.data.y;
 
-  return state ? expandedDescription1 : expandedDescription2;
+  // return state ? expandedDescription1 : expandedDescription2;
 
-  console.log(node.data.id);
-  return axios.post(`${BASE_URL}/more-info`, { concept: node.data })
+  console.log(node.data)
+
+  return axios.post(`${BASE_URL}/more-info`,  node.data )
     .then(response => {console.log(response); return response.data})
     .catch(error => {
       console.error('Error fetching text:', error);
@@ -60,7 +64,7 @@ export async function getLongDescription(node, query, state) {
 }
 
 export async function expandGraphWithNewNodes(nodeId, query, node) {
-  return axios.post(`${BASE_URL}/expand-graph-with-new-nodes`, { id: nodeId, query: query, concept: node })
+  return axios.post(`${BASE_URL}/expand-graph-with-new-nodes`, { id: nodeId, query: query, concept: nodeId })
     .then(response => response.data)
     .catch(error => {
       console.error('Error expanding graph with new nodes:', error);
