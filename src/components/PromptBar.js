@@ -4,6 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { NodeContext } from '../NodeContext.js';
 import { generateTwoLayers } from '../api/apiCalls.js';
 import "../App.css"
+import { CenterFocusStrong } from '@material-ui/icons';
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -49,7 +50,7 @@ const PromptBar = ({ onClose }) => {
 
   return (
     loading ?
-        <Modal open={true} onClose={onClose}>
+        <Modal open={true} onClose={onClose} style={{ display: "flex", justifyContent: 'center', alignItems: "center", height: "100%", width: "100%"}}>
           <div className='spinner'>
             <div className="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
           </div>
