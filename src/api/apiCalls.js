@@ -32,7 +32,7 @@ const exampleLongDescription = {
 };
 
 
-export function generateTwoLayers(searchTerm) {
+export async function generateTwoLayers(searchTerm) {
   return axios.post(`${BASE_URL}/query`, { query: searchTerm })
     .then(response => response.data)
     .catch(error => {
@@ -41,7 +41,7 @@ export function generateTwoLayers(searchTerm) {
     });
 }
 
-export function getLongDescription(node) {
+export async function getLongDescription(node) {
   // return axios.post(`${BASE_URL}/more-info`, { concept: node })
   //   .then(response => {console.log(response); return response.data})
   //   .catch(error => {
@@ -51,7 +51,7 @@ export function getLongDescription(node) {
   return exampleLongDescription;
 }
 
-export function expandGraphWithNewNodes(nodeId) {
+export async function expandGraphWithNewNodes(nodeId) {
   // return axios.post(`${BASE_URL}/expand-graph-with-new-nodes`, { concept: nodeId })
   //   .then(response => response.data)
   //   .catch(error => {
