@@ -1,5 +1,4 @@
 import { createContext, useState } from 'react';
-import { getLongDescription } from './api/apiCalls.js';
 
 export const NodeContext = createContext();
 

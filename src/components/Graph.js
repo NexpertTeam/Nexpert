@@ -1,8 +1,10 @@
 import React, { useContext, useEffect, useState } from 'react';
 import Tree from 'react-d3-tree';
+import cloneDeep from 'lodash/cloneDeep';
 import { NodeContext } from '../NodeContext.js';
 import { getLongDescription, expandGraphWithNewNodes } from '../api/apiCalls.js'; // or wherever your API functions are stored
 import './styles/Graph.css';
+
 
 function mergeData(nodeId, treeData, expandedData) {
   // Function to recursively search for a node
@@ -17,11 +19,28 @@ function mergeData(nodeId, treeData, expandedData) {
   }
 
   // Make a deep copy of the tree data and search it
-  const newTreeData = JSON.parse(JSON.stringify(treeData));
+  const newTreeData = cloneDeep(treeData);
   findNode(newTreeData);
 
   return newTreeData;
 }
+
+// Function to recursively update node description
+function updateDescription(node, currentNode, longDescription) {
+  if (node.id === currentNode.id) {
+    // Return a new object for the node
+    return { ...node, description: longDescription };
+  }
+  if (node.children) {
+    // Iterate through children, creating new objects for any that have changed
+    return {
+      ...node,
+      children: node.children.map(child => updateDescription(child, currentNode, longDescription)),
+    };
+  }
+  // No changes to this node or its children
+  return node;
+};
 
 const Graph = ({ data }) => {
   const { scale, translate, handleNodeClick, currentNode } = useContext(NodeContext);
@@ -31,15 +50,10 @@ const Graph = ({ data }) => {
     const fetchData = async () => {
       try {
         // Fetch paper insights and set them in the state
-        const paperInsights = await getLongDescription(currentNode.data.id); // Add any necessary arguments
-        setTreeData(paperInsights);
-
-        // If there's a node to expand, fetch new nodes and add them to the tree data
-        if (currentNode) {
-          const expandedGraphData = await expandGraphWithNewNodes(currentNode.data.id);
-          const newTreeData = mergeData(currentNode.data.id, treeData, expandedGraphData.concepts);
-          setTreeData(newTreeData);
-        }
+        const paperInsights = await getLongDescription(currentNode); // Add any necessary arguments
+        // Update node description in treeData
+        const updatedTreeData = updateDescription(treeData, currentNode.data, paperInsights?.expandedDescription);
+        setTreeData(updatedTreeData);
       } catch (error) {
         console.error('An error occurred while fetching data:', error);
         // You might want to handle this error - show it to the user or something
@@ -47,7 +61,7 @@ const Graph = ({ data }) => {
     };
 
     fetchData();
-  }, [currentNode]); // Fetch data when the component mounts, and refetch whenever nodeIdToExpand changes
+  }, [currentNode]); // Fetch data when the component mounts, and refetch whenever currentNode changes
 
   const onClick = (nodeData) => {
     handleNodeClick(nodeData);

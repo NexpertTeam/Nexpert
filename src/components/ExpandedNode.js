@@ -7,7 +7,7 @@ function ExpandedNode({ children }) {
 
   return (
     <div className="expandedNode">
-      <h3 className='title'>Deep Dive</h3>
+      <h3 className='title'>Read More</h3>
       {currentNode &&
         <div>
             <div className="nodeTag"><b>Name:</b> {currentNode?.data.name}</div>
