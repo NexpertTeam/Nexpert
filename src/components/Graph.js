@@ -59,7 +59,7 @@ const getLongDesc = async(node, callbackFunc, currentTreeData) => {
 }
 
 const expandGraph = async (node, callbackFunc, currentTreeData) => {
-  const expandedGraphData = await expandGraphWithNewNodes(node.data.id, currentTreeData.name, node.data, );
+  const expandedGraphData = await expandGraphWithNewNodes(node.data.id, currentTreeData.name, node, );
   const newTreeData = mergeData(node.data.id, currentTreeData, expandedGraphData);
   callbackFunc(newTreeData)
 }
@@ -76,8 +76,7 @@ const Graph = () => {
         if (currentNode && currentNode.data) {
           setLoading(true);
           const updatedTreeData = await getLongDesc(currentNode, setTreeData, treeData);
-          // console.log(updatedTreeData);
-          // await expandGraph(currentNode, setTreeData, updatedTreeData);
+          await expandGraph(currentNode, setTreeData, updatedTreeData);
           setLoading(false);
         }
       } catch (error) {
