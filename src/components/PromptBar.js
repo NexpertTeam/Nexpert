@@ -1,8 +1,9 @@
-import React, { useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import { Modal, TextField } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { NodeContext } from '../NodeContext.js';
 import { generateTwoLayers } from '../api/apiCalls.js';
+import "../App.css"
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -21,13 +22,15 @@ const PromptBar = ({ onClose }) => {
   const { setTreeData } = useContext(NodeContext);
 
   const classes = useStyles();
+  const [loading, setLoading] = useState(false);
 
-  const handleSearch = (event) => {
+  const handleSearch = async (event) => {
     if (event.key === 'Enter') {
+      setLoading(true);
+
       generateTwoLayers(event.target.value)
         .then(response => {
-          console.log(response);
-          
+          console.log(response.data);          
           if (response.error) {
             console.log(response.error);
           }
@@ -51,7 +54,10 @@ const PromptBar = ({ onClose }) => {
           // // Now `root` is your tree in the correct format for react-d3-tree
           // console.log(root);  
           // setTreeData(root);
+      // generateTwoLayers(event.target.value);
 
+
+          setLoading(false);
           onClose();
         })
         .catch(error => {
@@ -63,11 +69,18 @@ const PromptBar = ({ onClose }) => {
 
 
   return (
-    <Modal open={true} onClose={onClose}>
-      <div className={classes.paper}>
-        <TextField fullWidth placeholder="I want to become an expert in..." autoFocus onKeyDown={handleSearch}/>
-      </div>
-    </Modal>
+    loading ?
+        <Modal open={true} onClose={onClose}>
+          <div className='spinner'>
+            <div  class="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+          </div>
+        </Modal>
+      :
+      <Modal open={true} onClose={onClose}>
+        <div className={classes.paper} style={{ borderRadius: "6px" }}>
+          <TextField fullWidth placeholder="I want to become an expert in..." autoFocus onKeyDown={handleSearch} />
+        </div>
+      </Modal>
   );
 };
 
