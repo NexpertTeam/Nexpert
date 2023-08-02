@@ -11,7 +11,7 @@ function mergeData(nodeId, treeData, expandedData) {
   function findNode(node) {
     if (node.id === nodeId) {
       // Node found, append children
-      node.children = node.children?.concat(expandedData);
+      node.children = expandedData.children;
     } else if (node.children) {
       // Node not found, search children
       node.children.forEach(findNode);
@@ -27,7 +27,6 @@ function mergeData(nodeId, treeData, expandedData) {
 
 // Function to recursively update node description
 function updateDescription(node, currentNode, longDescription) {
-  console.log(currentNode);
   if (node.id === currentNode.id) {
     // Return a new object for the node
     return { ...node, description: longDescription };
