@@ -1,11 +1,14 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { NodeContext } from '../NodeContext.js';
-import './styles/ExpandedNode.css';
+import React, { useContext, useEffect, useState } from "react";
+import { NodeContext } from "../NodeContext.js";
+import { Modal } from "@mui/material";
+import "./styles/ExpandedNode.css";
+import { Close } from "@material-ui/icons";
 
-function ExpandedNode({ children }) {
-  const { currentNode, loading, treeData } = useContext(NodeContext);
+function ExpandedNode({ modalOnClose, children }) {
+  const { currentNode, loading, treeData, expandedNode } =
+    useContext(NodeContext);
   const [foundNode, setFoundNode] = useState(null);
-
+  const [modalOpen, setModalOpen] = useState(false);
   const findNode = (node, id) => {
     if (node.id === id) {
       return node;
@@ -29,23 +32,60 @@ function ExpandedNode({ children }) {
     }
   }, [currentNode, treeData]);
 
-  return (
-    treeData &&
-    (
-      <div className="expandedNode">
-        <h3 className='title'>Read More</h3>
-        {loading && <div className='noNodeTag'>Loading...</div>}
-        {!loading && foundNode &&
-          <div>
-            <div className="nodeTag"><b>Name:</b> {foundNode.name}</div>
-            <div className="nodeTag"><b>Description:</b> {foundNode.description}</div>
-            <div className="nodeTag"><b>Reference URL:</b> <a href={foundNode?.referenceUrl} target='_blank'>{foundNode?.referenceUrl}</a></div>
-          </div>
-        }   
-        {!foundNode && 
-          <div className="noNodeTag">No rabbithole selected (yet)...</div>
-        }
+  useEffect(() => {
+    if (expandedNode) {
+      setModalOpen(true);
+    }
+  }, [expandedNode]);
 
+  const _onClose = () => setModalOpen(false);
+
+  return (
+    treeData && (
+      <div className="expandedNode">
+        {loading && <div className="noNodeTag">Loading...</div>}
+        {!loading && foundNode && (
+          <div>
+            <div
+              className="nodeTag"
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+              }}
+            >
+              <h3>{foundNode.name}</h3>
+              <button
+                onClick={modalOnClose}
+                style={{
+                  background: "none",
+                  border: "none",
+                  cursor: "pointer",
+                  color: "white",
+                }}
+              >
+                <Close />
+              </button>
+            </div>
+            <div className="nodeTag">{foundNode.description}</div>
+            <button
+              className="nodeTag"
+              style={{
+                background: "#758dbe",
+                border: "#758dbe",
+                cursor: "pointer",
+                color: "white",
+                width: "100px",
+                height: "25px",
+                textAlign: "center",
+              }}
+            >
+              <a href={foundNode?.referenceUrl} target="_blank">
+                Open paper
+              </a>
+            </button>
+          </div>
+        )}
         {children}
       </div>
     )

@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
 import { NodeProvider, NodeContext } from "./NodeContext.js";
-import ExpandedNode from "./components/ExpandedNode.js";
 import Graph from "./components/Graph.js";
 import History from "./components/History.js";
 import PromptBar from "./components/PromptBar.js";
@@ -20,7 +19,7 @@ function App() {
         event.preventDefault();
         setPromptBarVisible(true);
       }
-      if (event.ctrlKey && event.key == "q") {
+      if (event.ctrlKey && event.key === "q") {
         event.preventDefault();
         setPromptBarVisible(true);
       }
@@ -41,7 +40,7 @@ function App() {
       <div className="App">
         {isPromptBarVisible && <PromptBar onClose={closeSearchBar} />}
         <History />
-        <ExpandedNode />
+        {/* <ExpandedNode /> */}
         <Graph />
       </div>
     </NodeProvider>

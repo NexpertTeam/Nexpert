@@ -1,16 +1,14 @@
 .graph {
-    height: 100vh;
-    background: #FAF9FA;
-    width: 57vw;
+  background: #faf9fa;
+  width: 100%;
 }
 
 .rd3t-label {
-    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande',
-    'Lucida Sans', Arial, sans-serif;
-    color: #282c34;
-    translate: -60px 45px !important; font-size: 13px;
-
-
+  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+    "Lucida Sans", Arial, sans-serif;
+  color: #282c34;
+  translate: -60px 45px !important;
+  font-size: 13px;
 }
 
 .node__root > circle {
@@ -39,8 +37,7 @@
 }
 
 .helperText {
-    margin: 2rem;
-    padding: 1rem;
-    font-size: 0.8rem;
-    text-align: center;
+  padding: 1rem;
+  font-size: 0.8rem;
+  text-align: center;
 }
